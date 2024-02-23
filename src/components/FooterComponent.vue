@@ -15,9 +15,9 @@
             </div>
             <div class="footer_shortcuts">
                 <div class="bold">NA SKRÓTY</div>
-                <div @click="scrollPageTo('about')">O mnie</div>
-                <div @click="scrollPageTo('offer')">Oferta</div>
-                <div>Portfolio</div>
+                <div @click="pushPageAndSubject('/', 'about')">O mnie</div>
+                <div @click="pushPageAndSubject('/', 'offer')">Oferta</div>
+                <div @click="pushPageAndSubject('portfolio', 0)"> Portfolio</div>
             </div>
         </div>
         <div class="footer_bootom_sign"><i class="fa-regular fa-copyright"></i> Copyright, 2023</div>
@@ -29,14 +29,38 @@ export default {
  name: 'FooterComponent',
  methods: {
         scrollPageTo(target){
-            const target_id = document.getElementById(`${target}`)
-            this.$smoothScroll({
-                scrollTo: target_id,
-                duration: 1000,
-                offset: -50,
-            })
+            if (typeof target == "number") {
+                this.$smoothScroll({
+                    scrollTo: target,
+                    duration: 1000,
+                    offset: -50,
+                })
+            } else {
+                const target_id = document.getElementById(`${target}`)
+                this.$smoothScroll({
+                    scrollTo: target_id,
+                    duration: 1000,
+                    offset: -50,
+                })
+
+            }
         },
- }
+        pushPageAndSubject(pageName, subject){
+            this.$router.push(`${pageName}`)
+            setTimeout(() => {
+                this.scrollPageTo(subject)
+            }, 100); 
+        },
+    },
+    computed: {
+        checkRoute() {
+            if (this.$route.name == '/') {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
 }
 </script>
 

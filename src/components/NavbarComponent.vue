@@ -14,51 +14,69 @@
             <div class="navbar_shortcuts_container">
                     <div
                         class="navbar_short_cut "
-                        @click="scrollPageTo(0)"
+                        @click="pushPageAndSubject('/', 0)"
                     >
                         HOME
                     </div>
-                    <a class="navbar_short_cut " href="#about" v-smooth-scroll="{duration:1000, offset: -50 }">O MNIE</a>
-                    <a class="navbar_short_cut " href="#offer" v-smooth-scroll="{duration:1000, offset: -50 }">OFERTA</a>
+                    <!-- <a class="navbar_short_cut " href="#about" v-smooth-scroll="{duration:1000, offset: -50 }">O MNIE</a> -->
                     <div
                         class="navbar_short_cut "
-                        @click="scrollPageTo(1536)"
+                        @click="pushPageAndSubject('/', 'about')"
+                    >
+                        O MNIE
+                    </div>
+                    <!-- <a class="navbar_short_cut " href="#offer" v-smooth-scroll="{duration:1000, offset: -50 }">OFERTA</a> -->
+                    <div
+                        class="navbar_short_cut "
+                        @click="pushPageAndSubject('/', 'offer')"
+                    >
+                        OFERTA
+                    </div>
+                    <div
+                        class="navbar_short_cut "
+                        @click="pushPageAndSubject('portfolio', 0)"
                     >
                         PORTFOLIO
                     </div>
-                    <a class="navbar_short_cut " href="#contact" v-smooth-scroll="{duration:1000, offset: -50 }">KONTAKT</a>
+                    <!-- <a class="navbar_short_cut " href="#contact" v-smooth-scroll="{duration:1000, offset: -50 }">KONTAKT</a> -->
+                    <div
+                        class="navbar_short_cut "
+                        @click="pushPageAndSubject('/', 'contact')"
+                    >
+                        KONTAKT
+                    </div>
             </div>
         </div>
         <Sidebar @close_offerts="close_offerts">
             <ul class="navbar_sidebar-panel-nav">
                     <div
                         class="navbar_short_cut "
-                        @click="scrollPageTo(0)"
+                        @click="pushPageAndSubject('/', 0)"
                     >
                         HOME
                     </div>
                     <div
                         class="navbar_short_cut "
-                        @click="scrollPageTo('about')"
+                        @click="pushPageAndSubject('/', 'about')"
                     >
                         O MNIE
                     </div>
                     <div
                         class="navbar_short_cut "
-                        @click="scrollPageTo('offer')"
+                        @click="pushPageAndSubject('/', 'offer')"
                         
                     >
                         OFERTA
                     </div>
                     <div
                         class="navbar_short_cut "
-                        
+                        @click="pushPageAndSubject('portfolio', 0)"
                     >
                         PORTFOLIO
                     </div>
                     <div
                         class="navbar_short_cut "
-                        @click="scrollPageTo('contact')"
+                        @click="pushPageAndSubject('/', 'contact')"
                     >
                         KONTAKT
                     </div>
@@ -117,9 +135,12 @@ export default {
         close_offerts(){
             this.offert_clicked = false
         },
-        pushPage(pageName){
+        pushPageAndSubject(pageName, subject){
             this.closeNav()
             this.$router.push(`${pageName}`)
+            setTimeout(() => {
+                this.scrollPageTo(subject)
+            }, 300); 
         },
         toggleOffert(){
             this.offert_clicked = !this.offert_clicked

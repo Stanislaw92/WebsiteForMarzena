@@ -2,7 +2,7 @@
     <div class="contact_container" id="contact">
         <div class="contact_title_style" :class="{active_title: content_show}">KONTAKT</div>
         <div class="map_adress">
-            <img class="transform_animation_left" :class="{animation_active: content_show}" src="https://s3-alpha-sig.figma.com/img/dcf3/3c18/e2083b40c6309cef6324224f87231c0c?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=BaA04gQRzuOgO9Qa8sY-hIaqIBVK23cPaU-8MBAFqSH6VufYWmd2lSF6cmHYzKQohEbhmVEc~O27i2lNlxjt39qVTl~WmXvlp9Puw4XFTGpqe9I8oYMvyu2aQQimnEzcSGegsDYB2FGeCUngXA0IL2fTELfWsrqk6vgZJgpMHc5eQTW2tQLRp8a0K97V19mlqGZ0n4Lpp~McopKZ~6skALFMCyY9I4nxYzu2z7JPOxxEKWJRoBEhxBmQFHF77Y3kVqg7pIUMxpL7iSsm91UTifIFypXLjtUwXHc8EvswaqY~GxvLoErgyLPzSo~RtG5nDh5nxPYJHkv4dqce0Ob6ZQ__" alt="">
+            <img class="transform_animation_left" :class="{animation_active: content_show}" alt="" id="contact_photo">
             <div class="contact_text transform_animation_right" :class="{animation_active: content_show}">
                 <div class="contact_description">Zapraszamy do kontaktu. Działamy na terenie woj. mazowieckiego - Warszawa i okolice.</div>
                 <div class="contact_detail"><span><i class="fa-solid fa-location-pin icon-color"></i>&ensp;&nbsp;Adres </span>&nbsp;&emsp;Warszawa</div>
@@ -17,6 +17,7 @@
 <script>
 
 export default {
+    props: ['data_src', 'posY'],
     name: 'ContactComponent',
     components: {
 
@@ -27,10 +28,19 @@ export default {
             div_object: 0,
         }
     },
+    methods:{
+        lazyShowContent() {
+            this.content_show = true 
+            const photo = document.getElementById('contact_photo')
+            console.log(photo)
+            photo.src = this.data_src
+        }
+    },
+
     updated() {
         if ( this.content_show == false ){ 
             if ( this.isInAViewPort(this.div_object) ) {
-                this.content_show = true
+                this.lazyShowContent()
             }
         }
     },
@@ -74,6 +84,7 @@ export default {
     .map_adress img {
         width: 40%;
         object-fit: contain;
+        height: 90%;
     }
 
     .contact_text {

@@ -9,7 +9,7 @@
             <div class="about_me_img"
                 
             >
-                <img src="https://s3-alpha-sig.figma.com/img/4832/c602/b5b07662a9b7d602ea5b887d14707591?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TK4Gw~ivIQB56wh1pOCbV0nRBbmjkTjYGjNId461YZ-GvKiTq8YpWJ7qaSTXQH7uqpv1utYXClw8howvLV21HcTjwhNq5s5JLhqtzxlavojK-fLxEO4LANb4YOoc-BySzlIOPsQ4HR9uvpjNpvQ6y9LSEPA6l7ufAMos8pbFg87tjF6AtbAxUIX4B9b~OWgboIbQA3qG3HC5WBjsQI9b9vPtKk7MuVtozKxKz8bLjbJtRvEa1bRs3xGV0OjSJovCvIX03ODPADXnqq~MxS34JEHOWTkSZRdtPqhrD~HUOj7No26ClHAA5T5A0MyNp32byMzEs0EEMIdHg2vCFTWtXQ__" alt="">
+                <img alt="" id="photo">
             </div>
             <div class="about_me_text ">
                 <span v-if="screenWidth > 1000" class="about_me_title_style">O MNIE</span>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-    props: [],
+    props: ['data_src'],
     name: 'AboutMeComponent',
     data(){
         return {
@@ -34,17 +34,21 @@ export default {
             div_object: 0,
         }
     },
-    created() {
-
+    methods: {
+        lazyShowContent() {
+            this.content_show = true 
+            const photo = document.getElementById('photo')
+            photo.src = this.data_src
+        }
     },
     updated() {
         if ( this.content_show == false ){ 
             if ( this.content_show == false && window.innerWidth < 1000){ 
                 if ( this.isInAViewPort(this.div_object, -100) ) {
-                    this.content_show = true
+                    this.lazyShowContent()
                 }
             } else if ( this.isInAViewPort(this.div_object) ) {
-                    this.content_show = true
+                    this.lazyShowContent()
             }
         }
     },
@@ -52,10 +56,10 @@ export default {
         this.div_object = document.getElementById(`about`)
         if ( this.content_show == false && window.innerWidth < 1000){ 
             if ( this.isInAViewPort(this.div_object, -200) ) {
-                this.content_show = true
+                this.lazyShowContent()
             }
         } else if ( this.isInAViewPort(this.div_object) ) {
-                this.content_show = true
+                this.lazyShowContent()
         }
     }
 }

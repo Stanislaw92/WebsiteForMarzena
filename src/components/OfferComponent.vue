@@ -5,7 +5,7 @@
             <div class="circle_photos">
                 <div class="photo_text_pair">
                     <div class="single_circle_photo transform_animation_left" :class="{animation_active_2: content_show}">
-                        <img src="https://www.weddinginclude.com/wp-content/uploads/2019/02/Summer-Wedding-Bouquets-Ideas-to-Embrace-1122230577363399270.jpg" alt="">
+                        <img alt="" id="photo1">
                     </div>
                     <div class="text_for_photo transform_animation_left" :class="{animation_active: content_show}">
                         <div>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="photo_text_pair">
                     <div class="single_circle_photo transform_animation_left" :class="{animation_active_2: content_show}">
-                        <img src="https://s3-alpha-sig.figma.com/img/5dc8/cb19/8aa364015145e78ecf65259aaece37ec?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Umk9tw6n5gKXniIQIpMTR3MfzR9rwVTMriBszP8DzCotDULM5GLrcTAlGk-Gkn0clzryMCI8tyH5dHxSGIT3ovVkXuYdmMyAEajmM5tKjowlhz0pMlA3HomySn3EJjKLVogrCbELg3j~duv9j9JWJGO9OUnAb9UJ4t~qKYph5Oc7E9-~qfLcK4luZ0INkDHdMXemWayS~SId3bf5q5mpzXAiQCXGp721NR41nYsE6xPSG8IoYbFSL88YP5-~vvLWtjbv7jBgBWrqQi2BmwNGBl4Y299PxtgFhA0Hj7ayEhiOigRo1XGfgu-T9h26~Km9TUKYbHm3KGKWDU6-MOQOnQ__" alt="">
+                        <img alt="" id="photo2">
                     </div>
                     <div class="text_for_photo transform_animation_left" :class="{animation_active: content_show}">
                         <div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="photo_text_pair">
                     <div class="single_circle_photo transform_animation_left" :class="{animation_active_2: content_show}">
-                        <img src="https://s3-alpha-sig.figma.com/img/b583/e309/0a073806abc968b600803977e7659e03?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UTq-dtyByai61S7DC1JuI8XYyqXL-aq9zS9S1A7xq6-B2dakvs2fEo8vXRtRrZg0mv-~LwVYinM-DV9QkqclaU3vc0Y4FXqgV6sChWUc6rL5R19xKPQN-VVrJwgiM7CeUEU5XIyw4L65GpMx0YpvkHHnwHHuiPWT7~N1b3ZbMRpPG58FNa3~oP8AfocofflsFSb5RHFO~okZSjfLX99SAm2E77KIE0jp3duCuuBZW8ZZL4uqT2~k8ZOf~mQ9HDBNsDHiE0ritw1fK6~JX5EFmPYX08CShtkz2Sm5OKkRpB-Mh0qF6mrSuU~4Zd1C7dhIQKt6WFZ0OWoimDKGkqpX~Q__" alt="">
+                        <img alt="" id="photo3">
                     </div>
                     <div class="text_for_photo transform_animation_left" :class="{animation_active: content_show}">
                         <div>
@@ -45,7 +45,7 @@
             </div>
             <div class="square_photo" :class="{active_title: content_show}">
                 <div>
-                    <img src="https://i.pinimg.com/originals/35/94/ff/3594ffe30d86328a0db1b342d6a531a6.jpg" alt="">
+                    <img alt="" id="photo4">
                 </div>
                 <ButtonComponent 
                     :text = 'button_text'
@@ -59,7 +59,7 @@
 <script>
 import ButtonComponent from './ButtonComponent.vue'
 export default {
-    props: [],
+    props: ['data_src1','data_src2','data_src3', 'data_src4'],
     name: "OfferComponent",
     components: {
         ButtonComponent,
@@ -72,21 +72,33 @@ export default {
             div_object: 0,
         }
     },
-    created(){
+    methods:{
+        lazyShowContent() {
+            this.content_show = true 
+            const photo1 = document.getElementById('photo1')
+            const photo2 = document.getElementById('photo2')
+            const photo3 = document.getElementById('photo3')
+            const photo4 = document.getElementById('photo4')
+            photo1.src = this.data_src1
+            photo2.src = this.data_src2
+            photo3.src = this.data_src3
+            photo4.src = this.data_src4
+        }
     },
     updated() {
         if ( this.content_show == false && window.innerWidth < 1000){ 
             if ( this.isInAViewPort(this.div_object, -200) ) {
-                this.content_show = true
+                this.lazyShowContent()
             }
         } else if (this.content_show == false && window.innerWidth > 1000) {
             if ( this.isInAViewPort(this.div_object) ) {
-                this.content_show = true
+                this.lazyShowContent()
             } 
         }
     },
     mounted() {
         this.div_object = document.getElementById(`offer`)
+        
     }
 }
 </script>
